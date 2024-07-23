@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="tipping.css">
+    <title>Tip Calculator</title>
+    <script>
+        // Function to verify valid service quality
+        function verifyServiceQuality(quality) {
+            const validQualities = ['great', 'ok', 'poor'];
+            return validQualities.includes(quality.toLowerCase());
+        }
+
+        // Function to verify a valid service amount
+        function verifyServiceAmount(amount) {
+            return amount >= 5.00 && amount <= 500.00;
+        }
+
+        // Function to calculate the tip amount, great service in NYC where I worked as a waiter was 25%
+        function calculateTip(amount, quality) {
+            let tipPercentage;
+            switch (quality.toLowerCase()) {
+                case 'great':
+                    tipPercentage = 0.20;
+                    break;
+                case 'ok':
+                    tipPercentage = 0.15;
+                    break;
+                case 'poor':
+                    tipPercentage = 0.10;
+                    break;
+                default:
+                    tipPercentage = 0;
+            }
+            return amount * tipPercentage;
+        }
+
+        // Function to get a valid service amount from the human
+        function getServiceAmount() {
+            // Error Handling for invalid entry
+            while (true) {
+                const amount = parseFloat(prompt("Enter the total bill amount in dollars (between $5.00 and $500.00):"));
+                if (isNaN(amount) || !verifyServiceAmount(amount)) {
+                    alert("Invalid service amount. Please enter a value between $5.00 and $500.00.");
+                } else {
+                    return amount;
+                }
+            }
+        }
+
+        // Function to get a valid service quality from the user
+        function getServiceQuality() {
+            while (true) {
+                const quality = prompt("Enter the service quality (great, ok, or poor):");
+                if (!verifyServiceQuality(quality)) {
+                    alert("Invalid service quality. Please enter 'great', 'ok', or 'poor'.");
+                } else {
+                    return quality;
+                }
+            }
+        }
+
+        // Main function to handle the tip calculation process
+        function main() {
+            const amount = getServiceAmount();
+            const quality = getServiceQuality();
+
+            const tip = calculateTip(amount, quality);
+            alert(`For a service amount of $${amount.toFixed(2)}, a tip for ${quality.toLowerCase()} service is $${tip.toFixed(2)}.`);
+        }
+    </script>
+</head>
+<body onload="main()">
+</body>
+</html>
+
+
+<!-- References-->
+<!--/www.geeksforgeeks.org/design-a-tip-calculator-using-html-css-and-javascript/ This was inspiration for this
+assignment. I tweaked the final product-->
+<!-- https://www.w3schools.com/js/js_functions.asp -->
+<!-- Script validated @https://validator.w3.org/nu/#file-->
